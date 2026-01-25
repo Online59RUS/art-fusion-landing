@@ -1,0 +1,722 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Art Fusion - архитектура и дизайн для детей</title>
+  <meta name="description" content="Школа архитектуры и дизайна для детей. Запись на пробное занятие." />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="logo" href="#top" aria-label="Art Fusion">
+        <span class="logo__mark">AF</span>
+        <span class="logo__text">Art Fusion</span>
+      </a>
+
+      <nav class="nav" aria-label="Навигация">
+        <a class="nav__link" href="#programs">Программы</a>
+        <a class="nav__link" href="#works">Работы детей</a>
+        <a class="nav__link" href="#teachers">Преподаватели</a>
+        <a class="nav__link" href="#reviews">Отзывы</a>
+        <a class="nav__link" href="#pricing">Цены</a>
+        <a class="nav__link" href="#contacts">Контакты</a>
+      </nav>
+
+      <div class="header__actions">
+        <a class="btn btn--ghost" href="#lead">Записаться</a>
+        <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" type="button">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <a class="mobile-menu__link" href="#programs">Программы</a>
+      <a class="mobile-menu__link" href="#works">Работы детей</a>
+      <a class="mobile-menu__link" href="#teachers">Преподаватели</a>
+      <a class="mobile-menu__link" href="#reviews">Отзывы</a>
+      <a class="mobile-menu__link" href="#pricing">Цены</a>
+      <a class="mobile-menu__link" href="#contacts">Контакты</a>
+
+      <a class="btn btn--primary mobile-menu__cta" href="#lead">Записаться на пробное</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__content">
+          <div class="badge">Екатеринбург • 2-17 лет</div>
+
+          <h1 class="hero__title">ДЕТСКАЯ СТУДИЯ ДИЗАЙНА</h1>
+          <p class="hero__text">
+            Детская студия дизайна <strong>«Art Fusion»</strong> — это место,
+            где идеи вашего ребёнка воплощаются в реальность.
+          </p>
+
+          <div class="hero__buttons">
+            <a class="btn btn--primary" href="#lead">Записаться на пробное</a>
+            <a class="btn btn--ghost" href="#programs">Посмотреть программы</a>
+          </div>
+
+          <div class="hero__stats">
+            <div class="stat">
+              <div class="stat__num">4+</div>
+              <div class="stat__label">форматов занятий</div>
+            </div>
+            <div class="stat">
+              <div class="stat__num">1</div>
+              <div class="stat__label">пробное - легко начать</div>
+            </div>
+            <div class="stat">
+              <div class="stat__num">100%</div>
+              <div class="stat__label">фокус на практике</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__visual">
+          <div class="card">
+            <div class="card__top">
+              <div class="chip">Пробное</div>
+              <div class="chip chip--dark">Набор открыт</div>
+            </div>
+
+            <div class="card__title">Мини-проект на каждом занятии</div>
+
+            <div class="card__text">
+              На каждом занятии ребёнок создаёт законченный результат —
+              макет, творческую работу или часть большого проекта.
+              <br><br>
+              Большие проекты разбиваются на понятные этапы, и каждый этап —
+              это отдельный результат, который можно увидеть и потрогать.
+            </div>
+
+            <ul class="mini-project">
+              <li>- Понятная задача — ребёнок понимает, что он делает</li>
+              <li>- Работа руками — макеты, материалы, инструменты</li>
+              <li>- Результат с собой — готовая работа или этап проекта</li>
+            </ul>
+
+            <div class="card__hint">
+              Именно такие работы дети уносят домой — примеры ниже
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Programs -->
+    <section class="section" id="programs">
+      <div class="container">
+        <h2 class="section__title">Программы</h2>
+        <p class="section__subtitle">
+          4 Программы выстроены по возрасту и уровню, чтобы ребёнку было интересно, а результат был заметен с первых занятий.
+        </p>
+
+        <div class="grid">
+          <article class="p-card">
+            <h3 class="p-card__title">Малыши 2-4</h3>
+            <p class="p-card__text">Мягкий старт: моторика, формы, цвета, простые поделки.</p>
+          </article>
+
+          <article class="p-card">
+            <h3 class="p-card__title">Младшая группа 4-7</h3>
+            <p class="p-card__text">Первые проекты: макеты, композиции, работа с материалами и цветом.</p>
+          </article>
+
+          <article class="p-card">
+            <h3 class="p-card__title">Средняя группа 7-13</h3>
+            <p class="p-card__text">Макеты комнат и зданий, масштаб, пропорции и архитектурное мышление.</p>
+          </article>
+
+          <article class="p-card">
+            <h3 class="p-card__title">Старшая группа 13-17</h3>
+            <p class="p-card__text">Проектирование, стили, самостоятельность и портфолио работ.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Works -->
+    <section class="section section--alt" id="works">
+  <div class="container">
+    <h2 class="section__title">Работы детей</h2>
+    <p class="section__subtitle">
+      Каждое занятие - это мини-проект с результатом. Ниже - реальные работы наших учеников: макеты, ландшафт и интерьер.
+    </p>
+
+    <div class="works-grid">
+      <figure class="work-card">
+        <img class="work-card__img" src="./img/works/work-01.webp" alt="Макет современного дома с ландшафтом и рекой" loading="lazy">
+        <figcaption class="work-card__cap">
+          <div class="work-card__title">Современный дом и ландшафт</div>
+          <div class="work-card__meta">архитектура • композиция • детали</div>
+          <div class="work-card__desc">Прорабатываем масштаб, дорожки, зелень и “историю” пространства.</div>
+        </figcaption>
+      </figure>
+
+      <figure class="work-card">
+        <img class="work-card__img" src="./img/works/work-02.webp" alt="Макет дома с террасой и ландшафтом, вид под углом" loading="lazy">
+        <figcaption class="work-card__cap">
+          <div class="work-card__title">Дом - другой ракурс</div>
+          <div class="work-card__meta">архитектура • объем • подача</div>
+          <div class="work-card__desc">Учимся показывать проект: ракурсы, акценты, логика зонирования.</div>
+        </figcaption>
+      </figure>
+
+      <figure class="work-card">
+        <img class="work-card__img" src="./img/works/work-03.webp" alt="Макет домика у воды на ландшафте" loading="lazy">
+        <figcaption class="work-card__cap">
+          <div class="work-card__title">Дом у воды</div>
+          <div class="work-card__meta">ландшафт • фактуры • настроение</div>
+          <div class="work-card__desc">Работаем с фактурами: камень, зелень, вода - чтобы было “как живое”.</div>
+        </figcaption>
+      </figure>
+
+      <figure class="work-card">
+        <img class="work-card__img" src="./img/works/work-04.webp" alt="Мини-макет беседки и зоны отдыха в голубых тонах" loading="lazy">
+        <figcaption class="work-card__cap">
+          <div class="work-card__title">Зона отдыха</div>
+          <div class="work-card__meta">дизайн • цвет • аккуратность</div>
+          <div class="work-card__desc">Собираем композицию и учимся “держать стиль” цветом и формой.</div>
+        </figcaption>
+      </figure>
+
+      <figure class="work-card">
+        <img class="work-card__img" src="./img/works/work-05.webp" alt="Ландшафтный макет с камнями и планом проекта рядом" loading="lazy">
+        <figcaption class="work-card__cap">
+          <div class="work-card__title">Проект + план</div>
+          <div class="work-card__meta">проектирование • планировка</div>
+          <div class="work-card__desc">Связываем эскиз/план и объёмный макет - как у настоящих дизайнеров.</div>
+        </figcaption>
+      </figure>
+
+      <figure class="work-card">
+        <img class="work-card__img" src="./img/works/work-06.webp" alt="Интерьерный макет дома в разрезе с мебелью" loading="lazy">
+        <figcaption class="work-card__cap">
+          <div class="work-card__title">Дом в разрезе - интерьер</div>
+          <div class="work-card__meta">интерьер • функциональность</div>
+          <div class="work-card__desc">Планируем комнаты, расставляем мебель и продумываем удобство.</div>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="works-cta">
+      <a class="btn btn--primary" href="#lead">Хочу так же - записаться</a>
+      <a class="btn btn--ghost" href="#pricing">Посмотреть абонементы</a>
+    </div>
+  </div>
+</section>
+
+    <!-- Teachers -->
+    <section class="section" id="teachers">
+      <div class="container">
+        <h2 class="section__title">Преподаватели</h2>
+        <p class="section__subtitle">
+          3 педагога - тёплая атмосфера и внимание к каждому ребёнку.
+        </p>
+
+        <div class="teachers">
+          <article class="teacher">
+            <img class="teacher__photo" src="./img/tanya.png" alt="Татьяна - преподаватель" loading="lazy">
+            <div class="teacher__body">
+              <h3 class="teacher__name">Татьяна</h3>
+              <div class="teacher__role">Основатель и преподаватель</div>
+              <p class="teacher__text">
+                Ведёт занятия по дизайну и архитектуре. Помогает детям делать проекты “с результатом в руках”.
+              </p>
+              <a class="btn btn--ghost" href="#lead">Записаться</a>
+            </div>
+          </article>
+
+          <article class="teacher">
+            <img class="teacher__photo" src="./img/elena.jpg" alt="Елена - преподаватель" loading="lazy">
+            <div class="teacher__body">
+              <h3 class="teacher__name">Елена</h3>
+              <div class="teacher__role">Преподаватель</div>
+              <p class="teacher__text">
+                Бережно ведёт детей по шагам: материалы, аккуратность, композиция и уверенность “я могу”.
+              </p>
+              <a class="btn btn--ghost" href="#lead">Записаться</a>
+            </div>
+          </article>
+
+          <article class="teacher">
+            <img class="teacher__photo" src="./img/olga.png" alt="Оля - преподаватель" loading="lazy">
+            <div class="teacher__body">
+              <h3 class="teacher__name">Оля</h3>
+              <div class="teacher__role">Преподаватель</div>
+              <p class="teacher__text">
+                Помогает раскрыть креатив, развить вкус и научиться видеть “красиво” в деталях и цвете.
+              </p>
+              <a class="btn btn--ghost" href="#lead">Записаться</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="section" id="reviews">
+      <div class="container">
+        <h2 class="section__title">Отзывы родителей</h2>
+        <p class="section__subtitle">
+          Родители ценят атмосферу, педагогов и результат, который дети уносят с собой.
+        </p>
+
+        <div class="reviews-grid">
+          <article class="review-card">
+            <div class="review-card__quote">
+              “Ребёнку 6 лет, ходит с удовольствием на все занятия, потому что они безумно интересные и разнообразные.
+              А на выходе всегда получаются такие шедевры. Спасибо за творческое развитие наших детей!”
+            </div>
+            <div class="review-card__footer">
+              <span class="review-card__name">Лера Ржанникова</span>
+            </div>
+          </article>
+
+          <article class="review-card">
+            <div class="review-card__quote">
+              “Где мы с ребёнком только не были, но занятия в студии Art Fusion ни с чем не сравнимы.
+              Дети здесь вырезают, клеят, рисуют и очень много фантазируют — а это очень важно для ребёнка 4 лет.”
+            </div>
+            <div class="review-card__footer">
+              <span class="review-card__name">Екатерина Марковская</span>
+            </div>
+          </article>
+
+          <article class="review-card">
+            <div class="review-card__quote">
+              “Отличное пространство — уютное, красивое, с замечательными педагогами.
+              Занятия интересные, чувствуется внимание к каждому ребёнку.”
+            </div>
+            <div class="review-card__footer">
+              <span class="review-card__name">Лилия Коновалова</span>
+            </div>
+          </article>
+
+          <article class="review-card">
+            <div class="review-card__quote">
+              “Уютное и функциональное пространство для творчества и для ребёнка, и для взрослых.
+              Создание материальной красоты своими руками, душевная атмосфера и опытный педагог. Рекомендую.”
+            </div>
+            <div class="review-card__footer">
+              <span class="review-card__name">Елена Дарькова</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="section" id="pricing">
+      <div class="container">
+        <h2 class="section__title">Абонементы и цены</h2>
+        <p class="section__subtitle">
+          Большинство абонементов - 4 занятия. Есть пробное бесплатно и выездные мастер-классы.
+        </p>
+
+        <div class="price-grid">
+
+          <article class="price-card price-card--accent">
+            <div class="price-card__top">
+              <h3 class="price-card__title">Пробное занятие (4-17)</h3>
+              <div class="price">
+              <div class="sale-badge sale-badge--free">Бесплатно</div>
+              <span class="price__now">0 ₽</span>
+              </div>
+            </div>
+
+            <div class="tag">Пробное • 30-60 минут • подбор группы</div>
+
+            <ul class="mini">
+              <li>Знакомство со студией и форматом</li>
+              <li>Подбор группы по возрасту</li>
+              <li>Понимание “подходит/не подходит”</li>
+            </ul>
+
+            <details class="details">
+              <summary>Подробнее</summary>
+              <div class="details__content">
+                Пробное занятие - мягкий старт. Ребёнок пробует архитектуру и дизайн в дружелюбной атмосфере,
+                а вы понимаете формат и ожидаемый результат.
+              </div>
+            </details>
+            <div class="price-actions">
+            <a class="btn btn--primary btn--full" href="#lead">Записаться на пробное</a>
+            </div>
+          </article>
+
+          <article class="price-card">
+            <div class="price-card__top">
+              <h3 class="price-card__title">Малыши (2-4)</h3>
+              <div class="price">
+                <span class="price__old">3 900 ₽</span>
+                <div class="sale-badge">АКЦИЯ</div>
+                <span class="price__now">2 900 ₽</span>
+              </div>
+            </div>
+
+            <div class="tag">4 занятия • 60 минут • 1 раз в неделю</div>
+
+            <ul class="mini">
+              <li>Формы, цвета, простые поделки</li>
+              <li>Развитие моторики и внимания</li>
+              <li>Аккуратность и уверенность “я могу”</li>
+            </ul>
+
+            <details class="details">
+              <summary>Подробнее</summary>
+              <div class="details__content">
+                Для малышей, которые любят конструкторы и творчество. Через игру учимся работать с материалами,
+                развиваем воображение и привычку доводить дело до конца.
+              </div>
+            </details>
+            <div class="price-actions">
+            <a class="btn btn--ghost btn--full" href="#lead">Записаться</a>
+            </div>
+          </article>
+
+          <article class="price-card">
+            <div class="price-card__top">
+              <h3 class="price-card__title">Младшая группа (4-7)</h3>
+              <div class="price">
+                <span class="price__old">4 900 ₽</span>
+                <div class="sale-badge">АКЦИЯ</div>
+                <span class="price__now">3 900 ₽</span>
+              </div>
+            </div>
+
+            <div class="tag">4 занятия • 90 минут • 1 раз в неделю</div>
+
+            <ul class="mini">
+              <li>Ножницы, линейка, кисти - без страха</li>
+              <li>Первые проекты и композиции</li>
+              <li>Колористика - красиво сочетать цвета</li>
+            </ul>
+
+            <details class="details">
+              <summary>Подробнее</summary>
+              <div class="details__content">
+                Дети учатся создавать понятный результат: проект, поделку или макет.
+                Формируем вкус, терпение и привычку работать по шагам.
+              </div>
+            </details>
+            <div class="price-actions">
+            <a class="btn btn--ghost btn--full" href="#lead">Записаться</a>
+            </div>
+          </article>
+
+          <article class="price-card">
+            <div class="price-card__top">
+              <h3 class="price-card__title">Средняя группа (7-9 / 10-13)</h3>
+              <div class="price">
+                <span class="price__old">5 900 ₽</span>
+                <div class="sale-badge">АКЦИЯ</div>
+                <span class="price__now">4 900 ₽</span>
+              </div>
+            </div>
+
+            <div class="tag">4 занятия • 90 минут • 1 раз в неделю</div>
+
+            <ul class="mini">
+              <li>Макеты комнат, зданий, ландшафтов</li>
+              <li>Масштаб, пропорции, композиция</li>
+              <li>Цвет и настроение проекта</li>
+            </ul>
+
+            <details class="details">
+              <summary>Подробнее</summary>
+              <div class="details__content">
+                Больше “архитектуры”: проектируем, продумываем детали и учимся объяснять своё решение.
+                Отлично развивает пространственное мышление и логику.
+              </div>
+            </details>
+            <div class="price-actions">
+            <a class="btn btn--ghost btn--full" href="#lead">Записаться</a>
+            </div>
+          </article>
+
+          <article class="price-card">
+            <div class="price-card__top">
+              <h3 class="price-card__title">Старшая группа (13-17)</h3>
+              <div class="price">
+                <span class="price__old">5 900 ₽</span>
+                <div class="sale-badge">АКЦИЯ</div>
+                <span class="price__now">4 900 ₽</span>
+              </div>
+            </div>
+
+            <div class="tag">4 занятия • 90 минут • 1 раз в неделю</div>
+
+            <ul class="mini">
+              <li>Проектирование и визуальное мышление</li>
+              <li>Эксперименты со стилями</li>
+              <li>Портфолио работ ребёнка</li>
+            </ul>
+
+            <details class="details">
+              <summary>Подробнее</summary>
+              <div class="details__content">
+                Подростки работают на уровень: сложнее задачи, больше самостоятельности, результат можно собирать в портфолио.
+                Это помогает и для уверенности, и для профориентации.
+              </div>
+            </details>
+            <div class="price-actions">
+            <a class="btn btn--ghost btn--full" href="#lead">Записаться</a>
+            </div>
+          </article>
+
+          <article class="price-card">
+            <div class="price-card__top">
+              <h3 class="price-card__title">Художественный курс (4-17)</h3>
+              <div class="price">
+                <span class="price__old">4 900 ₽</span>
+                <div class="sale-badge">АКЦИЯ</div>
+                <span class="price__now">3 000 ₽</span>
+              </div>
+            </div>
+
+            <div class="tag">4 занятия • 60 минут • 1 раз в неделю</div>
+
+            <ul class="mini">
+              <li>Карандаш, гуашь, акварель, акрил</li>
+              <li>Развитие креативности и моторики</li>
+              <li>Творчество как разгрузка</li>
+            </ul>
+
+            <details class="details">
+              <summary>Подробнее</summary>
+              <div class="details__content">
+                Ребёнок пробует разные материалы и постепенно находит “свой стиль”.
+                Хорошо подходит тем, кто любит рисовать и хочет прогрессировать.
+              </div>
+            </details>
+            <div class="price-actions">
+            <a class="btn btn--ghost btn--full" href="#lead">Записаться</a>
+            </div>
+          </article>
+
+          <article class="price-card">
+            <div class="price-card__top">
+              <h3 class="price-card__title">Взрослая группа (18+)</h3>
+              <div class="price">
+                <span class="price__now">5 900 ₽</span>
+              </div>
+            </div>
+
+            <div class="tag">4 занятия • 90 минут • 1 раз в неделю</div>
+
+            <ul class="mini">
+              <li>Композиция, цвет, эскизы, макеты</li>
+              <li>Интерьер, ландшафт, основы дизайна</li>
+              <li>Мини-группа - внимание каждому</li>
+            </ul>
+
+            <details class="details">
+              <summary>Подробнее</summary>
+              <div class="details__content">
+                Для тех, кто давно хотел “в дизайн”, но не знал как начать.
+                Можно переносить пропуск на следующую неделю - чтобы не терять занятия.
+              </div>
+            </details>
+            <div class="price-actions">
+            <a class="btn btn--ghost btn--full" href="#lead">Записаться</a>
+            </div>
+          </article>
+
+          <article class="price-card">
+            <div class="price-card__top">
+              <h3 class="price-card__title">Выездной мастер-класс</h3>
+              <div class="price">
+                <span class="price__old">2 500 ₽</span>
+                <div class="sale-badge">АКЦИЯ</div>
+                <span class="price__now">1 500 ₽</span>
+              </div>
+            </div>
+
+            <div class="tag">Выезд • материалы включены • для групп</div>
+
+            <ul class="mini">
+              <li>Приезжаем в школу/офис/студию</li>
+              <li>Дети делают проект своими руками</li>
+              <li>Всё необходимое привозим с собой</li>
+            </ul>
+
+            <details class="details">
+              <summary>Подробнее</summary>
+              <div class="details__content">
+                Отличный формат для классов, праздников и мероприятий.
+                Вы выбираете место - мы делаем “мир творчества” и берём материалы на себя.
+              </div>
+            </details>
+            <div class="price-actions">
+            <a class="btn btn--ghost btn--full" href="#lead">Запросить выезд</a>
+            </div>
+          </article>
+
+          <article class="price-card price-card--wide">
+            <div class="price-card__top">
+              <h3 class="price-card__title">Группа продлённого дня</h3>
+              <div class="price">
+                <span class="price__now">23 000 ₽</span>
+              </div>
+            </div>
+
+            <div class="tag">до 10 детей • питание включено • помощь с домашкой</div>
+
+            <ul class="mini">
+              <li>Обед + полдник, полезные продукты</li>
+              <li>Домашние задания под присмотром педагога</li>
+              <li>Творческая мастерская каждый день</li>
+            </ul>
+
+            <details class="details">
+              <summary>Распорядок дня</summary>
+                <div class="details__content">
+                  <ul class="schedule">
+                    <li><span>11:00–12:30</span> Встреча детей, подготовка помещения</li>
+                    <li><span>12:30–13:00</span> Обед (горячее питание)</li>
+                    <li><span>13:00–14:00</span> Свободное время, игры</li>
+                    <li><span>14:00–15:00</span> Домашние задания с педагогом</li>
+                    <li><span>15:00–16:00</span> Полдник</li>
+                    <li><span>16:00–17:00</span> Творческая мастерская</li>v
+                    <li><span>17:00–18:00</span> Прогулка / активные игры</li>
+                  </ul>
+                </div>
+
+            </details>
+            <div class="price-actions">
+            <a class="btn btn--primary btn--full" href="#lead">Узнать детали</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Branches -->
+    <section class="section" id="branches">
+      <div class="container">
+        <h2 class="section__title">Филиалы и график</h2>
+        <p class="section__subtitle">
+          Выберите удобный адрес - у каждого филиала свой график. Маршрут и звонок - в один тап.
+        </p>
+
+        <div class="branches">
+          <div class="branches__tabs" id="branchesTabs" aria-label="Выбор филиала"></div>
+          <article class="branches__card" id="branchCard" aria-live="polite"></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lead -->
+    <section class="section section--alt" id="lead">
+      <div class="container lead">
+        <div class="lead__left">
+          <h2 class="section__title">Запись на пробное занятие</h2>
+          <p class="section__subtitle">
+            Оставьте контакт - мы уточним возраст ребёнка, подберём группу и ответим на вопросы.
+          </p>
+
+          <ul class="bullets">
+            <li>быстро отвечаем</li>
+            <li>подбор по возрасту</li>
+            <li>понятно расскажем “что будет на занятии”</li>
+          </ul>
+        </div>
+
+        <form class="form" id="leadForm">
+          <label class="field">
+            <span class="field__label">Имя</span>
+            <input class="field__input" type="text" name="name" placeholder="Как к вам обращаться" required />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Телефон</span>
+            <input class="field__input" type="tel" name="phone" placeholder="+7 ___ ___-__-__" required />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Возраст ребёнка</span>
+            <input class="field__input" type="text" name="age" placeholder="Например, 7" />
+          </label>
+
+          <button class="btn btn--primary btn--full" type="submit">Отправить заявку</button>
+          <p class="form__hint" id="formHint">Нажимая “Отправить”, вы соглашаетесь на обратную связь.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Contacts -->
+    <section class="section" id="contacts">
+      <div class="container">
+        <h2 class="section__title">Контакты</h2>
+        <p class="section__subtitle">Сюда добавим адреса и карту на следующем шаге.</p>
+
+        <div class="contact-cards">
+          <div class="contact">
+            <div class="contact__title">Телефон</div>
+            <a class="contact__link" href="tel:+79221779204">+7 (922) 177-92-04</a>
+          </div>
+          <div class="contact">
+            <div class="contact__title">Соцсети</div>
+            <a class="contact__link" href="https://vk.com/studio_art_fusion" aria-label="VK" target="_blank" rel="noopener">Группа в ВК</a>
+          </div>
+          <div class="contact">
+            <div class="contact__title">График</div>
+            <div class="contact__text">По расписанию групп</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="muted">© <span id="year"></span> Art Fusion</div>
+    </div>
+  </footer>
+
+  <!-- Mobile bottom nav -->
+  <nav class="mnav" aria-label="Быстрая навигация">
+    <a class="mnav__item" href="#programs">
+      <span class="mnav__ico">🏠</span>
+      <span class="mnav__txt">Программы</span>
+    </a>
+
+    <a class="mnav__item" href="#teachers">
+      <span class="mnav__ico">👩‍🏫</span>
+      <span class="mnav__txt">Педагоги</span>
+    </a>
+
+    <a class="mnav__item" href="#pricing">
+      <span class="mnav__ico">💳</span>
+      <span class="mnav__txt">Цены</span>
+    </a>
+
+    <a class="mnav__item mnav__item--cta" href="#lead">
+      <span class="mnav__ico">✉️</span>
+      <span class="mnav__txt">Записаться</span>
+    </a>
+  </nav>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox__backdrop" data-close="1"></div>
+
+    <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Предыдущее фото">‹</button>
+    <img class="lightbox__img" alt="">
+    <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Следующее фото">›</button>
+
+    <button class="lightbox__close" type="button" aria-label="Закрыть">✕</button>
+  </div>
+
+
+  <script src="./js/script.js" defer></script>
+</body>
+</html>
