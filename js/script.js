@@ -104,11 +104,9 @@ if (leadForm) {
     }
 
     const payload = {
-      name,
-      phone,
-      age: age || "не указан",
-      branch: branch || "не выбран",
-      page: location.href,
+      name: escapeHtml(name),
+      phone: escapeHtml(phone),
+      age: escapeHtml(age || "не указан"),
     };
 
 
@@ -137,22 +135,42 @@ const BRANCHES = [
     badge: "Основной",
     address: "ул. Академика Ландау, д.51, пом.183, Екатеринбург",
     phone: "+79221779204",
-    hours: "Пн-Пт 10:00-20:00 - Сб 11:00-18:00",
+    hours: "Пн-Пт 10:00-20:00 - Сб 11:00-18:00 - Вс выходной",
     mapYandex: "https://yandex.ru/maps/-/CLxARN9A",
     map2gis: "https://go.2gis.com/Z7mpl",
   },
   {
     id: "repina",
     name: "Филиал - Репина",
-
     badge: "Кировский",
     address: "ул. Репина, д.79а, Екатеринбург",
     phone: "+79221779204",
-    hours: "Пн-Пт 10:00-20:00",
+    hours: "Пн-Пт 10:00-20:00 - Сб 11:00-18:00 - Вс выходной",
     mapYandex: "https://yandex.ru/maps/-/CLxAVMyN",
     map2gis: "https://go.2gis.com/kTeV5",
   },
+  {
+    id: "sovetskaya",
+    name: "Филиал - Советская",
+    badge: "Пионерский",
+    address: "ул. Советская, д.60, Екатеринбург",
+    phone: "+79221779204",
+    hours: "Пн-Пт 10:00-20:00 - Сб 11:00-18:00 - Вс выходной",
+    mapYandex: "https://yandex.ru/maps/-/CLxAZI4b",
+    map2gis: "https://go.2gis.com/ca0A4",
+  },
+  {
+    id: "bisertskaya",
+    name: "Филиал - Бисертская",
+    badge: "Чкаловский",
+    address: "ул. Бисертская, д.128, Екатеринбург",
+    phone: "+79221779204",
+    hours: "Пн-Пт 10:00-20:00 - Сб 11:00-18:00 - Вс выходной",
+    mapYandex: "https://yandex.ru/maps/-/CLxAZCiO",
+    map2gis: "https://go.2gis.com/AD1Pn",
+  },
 ];
+
 
 function normalizePhoneForTel(phone) {
   return String(phone || "").replace(/[^\d+]/g, "");
