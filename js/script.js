@@ -104,12 +104,13 @@ if (leadForm) {
     }
 
     const payload = {
-      name: escapeHtml(name),
-      phone: escapeHtml(phone),
-      age: escapeHtml(age || "не указан"),
-      branch: escapeHtml(branch || "не выбран"),
+      name,
+      phone,
+      age: age || "не указан",
+      branch: branch || "не выбран",
       page: location.href,
     };
+
 
     try {
       if (submitBtn) submitBtn.disabled = true;
@@ -143,6 +144,7 @@ const BRANCHES = [
   {
     id: "repina",
     name: "Филиал - Репина",
+
     badge: "Кировский",
     address: "ул. Репина, д.79а, Екатеринбург",
     phone: "+79221779204",
