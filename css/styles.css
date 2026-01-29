@@ -909,9 +909,14 @@ body.no-scroll{ overflow: hidden; }
   align-items: center;
   justify-content: center;
   padding: 18px;
+
+  pointer-events: none;
 }
 
-.lightbox.is-open{ display: flex; }
+.lightbox.is-open{ 
+  display: flex;
+  pointer-events: all;
+ }
 
 .lightbox__backdrop{
   position: absolute;
@@ -1066,3 +1071,45 @@ body.no-scroll{ overflow: hidden; }
   /* Works images: чуть выше на мобиле */
   .work-card__img{ height: 240px; }
 }
+
+/* ===== Fix: ровные карточки цен на мобиле ===== */
+@media (max-width: 980px){
+  .price-grid{
+    align-items: stretch; /* на всякий */
+  }
+
+  .price-card{
+    min-height: 560px;      /* подгонишь, если надо */
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* верх карточки одинаковой высоты */
+  .price-card__top{
+    min-height: 92px;
+  }
+
+  /* “чип” (tag) пусть всегда занимает одинаковый коридор */
+  .price-card .tag{
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* список — одинаковая высота, чтобы кнопки стали на один уровень */
+  .price-card .mini{
+    min-height: 150px;
+  }
+
+  /* details — чтобы “Подробнее” не ломало высоту */
+  .price-card .details{
+    min-height: 52px;
+  }
+
+  /* кнопки всегда снизу */
+  .price-card .price-actions{
+    margin-top: auto;
+  }
+}
+

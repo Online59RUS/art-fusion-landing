@@ -1,7 +1,12 @@
-// script.js
+// ================================
+// script.js — FINAL, CLEAN, SAFE
+// ================================
+
+// ---------- Year ----------
 const yearEl = document.getElementById("year");
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+// ---------- Mobile menu ----------
 const burger = document.getElementById("burger");
 const mobileMenu = document.getElementById("mobileMenu");
 
@@ -19,27 +24,20 @@ function closeMenu() {
   mobileMenu.setAttribute("aria-hidden", "true");
 }
 
-function toggleMenu() {
-  if (!mobileMenu) return;
-  mobileMenu.classList.contains("is-open") ? closeMenu() : openMenu();
-}
-
 if (burger) {
   burger.addEventListener("click", (e) => {
     e.preventDefault();
-    toggleMenu();
+    if (!mobileMenu) return;
+    mobileMenu.classList.contains("is-open") ? closeMenu() : openMenu();
   });
 }
 
 if (mobileMenu) {
   mobileMenu.addEventListener("click", (e) => {
-    const link = e.target.closest("a");
-    if (!link) return;
-    closeMenu(); // <-- ключевое: закрываем по клику на ссылку
+    if (e.target.closest("a")) closeMenu();
   });
 }
 
-// (опционально) закрывать по клику вне меню
 document.addEventListener("click", (e) => {
   if (!mobileMenu || !burger) return;
   const clickInsideMenu = mobileMenu.contains(e.target);
@@ -47,33 +45,90 @@ document.addEventListener("click", (e) => {
   if (!clickInsideMenu && !clickOnBurger) closeMenu();
 });
 
-// (опционально) закрывать по Esc
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeMenu();
 });
 
-
-
-// Пока без бэкенда: просто покажем "заявка принята".
-// На следующем шаге подключим отправку в Telegram/почту.
+// ===== Lead form -> Cloudflare Worker (Telegram inside Worker) =====
 const leadForm = document.getElementById("leadForm");
 const hint = document.getElementById("formHint");
+const submitBtn = document.getElementById("leadSubmit");
+
+// Вставь URL своего Cloudflare Worker:
+const FORM_ENDPOINT = "https://red-snow-7862.online59rus.workers.dev";
+
+function setHint(text, ok = true) {
+  if (!hint) return;
+  hint.textContent = text;
+  hint.style.color = ok ? "" : "#b91c1c";
+}
+
+function escapeHtml(s) {
+  return String(s || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function normalizePhonePlain(phone) {
+  return String(phone || "").trim();
+}
+
+async function sendLead(payload) {
+  const res = await fetch(FORM_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  const data = await res.json().catch(() => null);
+  if (!res.ok || !data || data.ok !== true) {
+    throw new Error(data?.error || "Ошибка отправки");
+  }
+  return data;
+}
 
 if (leadForm) {
-  leadForm.addEventListener("submit", (e) => {
+  leadForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const data = new FormData(leadForm);
-    const name = (data.get("name") || "").toString().trim();
+    const fd = new FormData(leadForm);
+    const name = String(fd.get("name") || "").trim();
+    const phone = normalizePhonePlain(fd.get("phone"));
+    const age = String(fd.get("age") || "").trim();
+    const branch = String(fd.get("branch") || "").trim();
 
-    if (hint) {
-      hint.textContent = `Спасибо${name ? ", " + name : ""}! Заявка принята. Мы свяжемся с вами.`;
+    if (!name || !phone) {
+      setHint("Заполните имя и телефон.", false);
+      return;
     }
-    leadForm.reset();
+
+    const payload = {
+      name: escapeHtml(name),
+      phone: escapeHtml(phone),
+      age: escapeHtml(age || "не указан"),
+      branch: escapeHtml(branch || "не выбран"),
+      page: location.href,
+    };
+
+    try {
+      if (submitBtn) submitBtn.disabled = true;
+      setHint("Отправляем заявку...");
+
+      await sendLead(payload);
+
+      leadForm.reset();
+      setHint("Спасибо! Заявка принята. Мы свяжемся с вами.");
+    } catch (err) {
+      console.error(err);
+      setHint("Не удалось отправить. Попробуйте ещё раз или позвоните по телефону.", false);
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
   });
 }
 
-// Branches block
+// ---------- Branches ----------
 const BRANCHES = [
   {
     id: "landau",
@@ -81,9 +136,9 @@ const BRANCHES = [
     badge: "Основной",
     address: "ул. Академика Ландау, д.51, пом.183, Екатеринбург",
     phone: "+79221779204",
-    hours: "Пн-Пт 10:00-20:00 - Сб 11:00-18:00 - Вс выходной",
+    hours: "Пн-Пт 10:00-20:00 - Сб 11:00-18:00",
     mapYandex: "https://yandex.ru/maps/-/CLxARN9A",
-    map2gis: "https://go.2gis.com/Z7mpl"
+    map2gis: "https://go.2gis.com/Z7mpl",
   },
   {
     id: "repina",
@@ -91,188 +146,70 @@ const BRANCHES = [
     badge: "Кировский",
     address: "ул. Репина, д.79а, Екатеринбург",
     phone: "+79221779204",
-    hours: "Пн-Пт 10:00-20:00 - Сб 11:00-18:00 - Вс выходной",
+    hours: "Пн-Пт 10:00-20:00",
     mapYandex: "https://yandex.ru/maps/-/CLxAVMyN",
-    map2gis: "https://go.2gis.com/kTeV5"
+    map2gis: "https://go.2gis.com/kTeV5",
   },
-  {
-    id: "sovetskaya",
-    name: "Филиал - Советская",
-    badge: "Пионерский",
-    address: "ул. Советская, д.60, Екатеринбург",
-    phone: "+79221779204",
-    hours: "Пн-Пт 10:00-20:00 - Сб 11:00-18:00 - Вс выходной",
-    mapYandex: "https://yandex.ru/maps/-/CLxAZI4b",
-    map2gis: "https://go.2gis.com/ca0A4"
-  },
-  {
-    id: "bisertskaya",
-    name: "Филиал - Бисертская",
-    badge: "Чкаловский",
-    address: "ул. Бисертская, д.128, Екатеринбург",
-    phone: "+79221779204",
-    hours: "Пн-Пт 10:00-20:00 - Сб 11:00-18:00 - Вс выходной",
-    mapYandex: "https://yandex.ru/maps/-/CLxAZCiO",
-    map2gis: "https://go.2gis.com/AD1Pn"
-  }
 ];
 
-function normalizePhoneForTel(phone){
+function normalizePhoneForTel(phone) {
   return String(phone || "").replace(/[^\d+]/g, "");
 }
 
-function renderBranchTabs(activeId){
-  const tabs = document.getElementById("branchesTabs");
-  if (!tabs) return;
-
-  tabs.innerHTML = BRANCHES.map((b) => {
-    const isActive = b.id === activeId;
-    return `
-      <button class="branch-tab ${isActive ? "is-active" : ""}" type="button" data-branch="${b.id}">
-        <div class="branch-tab__title">${b.name}</div>
-        <div class="branch-tab__meta">${b.address}</div>
-      </button>
-    `;
-  }).join("");
-}
-
-function isValidLink(url){
-  const u = String(url || "").trim();
-  return u && u !== "#";
-}
-
-function renderBranchCard(activeId){
-  const card = document.getElementById("branchCard");
-  if (!card) return;
-
-  const b = BRANCHES.find(x => x.id === activeId) || BRANCHES[0];
-  const tel = normalizePhoneForTel(b.phone);
-
-  const yandexOk = isValidLink(b.mapYandex);
-  const gisOk = isValidLink(b.map2gis);
-
-  card.innerHTML = `
-    <div class="branch-card__top">
-      <h3 class="branch-card__name">${b.name}</h3>
-      <div class="branch-badge">${b.badge || "Филиал"}</div>
-    </div>
-
-    <p class="branch-card__addr">${b.address}</p>
-
-    <div class="branch-row">
-      <div class="branch-info">
-        <div class="branch-info__label">График</div>
-        <div class="branch-info__value">${b.hours}</div>
-      </div>
-
-      <div class="branch-info">
-        <div class="branch-info__label">Телефон</div>
-        <div class="branch-info__value"><a href="tel:${tel}">${b.phone}</a></div>
-      </div>
-    </div>
-
-    <div class="branch-actions">
-      <a class="btn btn--primary" href="#lead">Записаться</a>
-
-      <a class="btn btn--ghost ${yandexOk ? "" : "is-disabled"}"
-         href="${yandexOk ? b.mapYandex : "javascript:void(0)"}"
-         ${yandexOk ? 'target="_blank" rel="noopener"' : 'aria-disabled="true" tabindex="-1"'}>
-        Маршрут - Яндекс
-      </a>
-
-      <a class="btn btn--ghost ${gisOk ? "" : "is-disabled"}"
-         href="${gisOk ? b.map2gis : "javascript:void(0)"}"
-         ${gisOk ? 'target="_blank" rel="noopener"' : 'aria-disabled="true" tabindex="-1"'}>
-        Маршрут - 2ГИС
-      </a>
-    </div>
-  `;
-}
-
-
-function initBranches(){
+function renderBranches() {
   const tabs = document.getElementById("branchesTabs");
   const card = document.getElementById("branchCard");
   if (!tabs || !card) return;
 
-  let activeId = BRANCHES[0]?.id || "landau";
-  renderBranchTabs(activeId);
-  renderBranchCard(activeId);
+  let activeId = BRANCHES[0]?.id || "";
+
+  const render = () => {
+    tabs.innerHTML = BRANCHES.map(
+      (b) => `
+      <button class="branch-tab ${b.id === activeId ? "is-active" : ""}" type="button" data-id="${b.id}">
+        <div class="branch-tab__title">${b.name}</div>
+        <div class="branch-tab__meta">${b.address}</div>
+      </button>
+    `
+    ).join("");
+
+    const b = BRANCHES.find((x) => x.id === activeId) || BRANCHES[0];
+    const tel = normalizePhoneForTel(b.phone);
+
+    card.innerHTML = `
+      <div class="branch-card__top">
+        <h3 class="branch-card__name">${b.name}</h3>
+        <div class="branch-badge">${b.badge}</div>
+      </div>
+      <p class="branch-card__addr">${b.address}</p>
+      <div class="branch-row">
+        <div class="branch-info">
+          <div class="branch-info__label">График</div>
+          <div class="branch-info__value">${b.hours}</div>
+        </div>
+        <div class="branch-info">
+          <div class="branch-info__label">Телефон</div>
+          <div class="branch-info__value"><a href="tel:${tel}">${b.phone}</a></div>
+        </div>
+      </div>
+    `;
+  };
 
   tabs.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-branch]");
+    const btn = e.target.closest("[data-id]");
     if (!btn) return;
-    activeId = btn.getAttribute("data-branch");
-    renderBranchTabs(activeId);
-    renderBranchCard(activeId);
+    activeId = btn.dataset.id || activeId;
+    render();
   });
+
+  render();
 }
 
-initBranches();
+renderBranches();
 
-document.addEventListener('click', (e) => {
-  const img = e.target.closest('.work-card__img');
-  if (!img) return;
-
-  lightboxImg.src = img.src;
-  lightboxImg.alt = img.alt || '';
-  lightbox.classList.add('is-open');
-  lightbox.setAttribute('aria-hidden', 'false');
-});
-
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = lightbox.querySelector('.lightbox__img');
-const closeBtn = lightbox.querySelector('.lightbox__close');
-const prevBtn = lightbox.querySelector('.lightbox__nav--prev');
-const nextBtn = lightbox.querySelector('.lightbox__nav--next');
-
-let gallery = [];
-let currentIndex = -1;
-
-// Свайп-параметры
-let touchStartX = 0;
-let touchStartY = 0;
-
-function collectGallery(){
-  // Собираем все изображения работ (важно: .work-card__img должны быть именно IMG)
-  gallery = Array.from(document.querySelectorAll('.work-card__img'));
-}
-
-function openLightboxByIndex(index){
-  if (!gallery.length) collectGallery();
-  if (!gallery.length) return;
-
-  // нормализуем индекс по кругу
-  currentIndex = (index + gallery.length) % gallery.length;
-
-  const src = gallery[currentIndex].getAttribute('data-full') || gallery[currentIndex].src;
-  const alt = gallery[currentIndex].alt || '';
-
-  lightboxImg.src = src;
-  lightboxImg.alt = alt;
-
-  lightbox.classList.add('is-open');
-  lightbox.setAttribute('aria-hidden', 'false');
-}
-
-function closeLightbox(){
-  lightbox.classList.remove('is-open');
-  lightbox.setAttribute('aria-hidden', 'true');
-  lightboxImg.src = '';
-  currentIndex = -1;
-}
-
-function next(){
-  if (currentIndex < 0) return;
-  openLightboxByIndex(currentIndex + 1);
-}
-
-function prev(){
-  if (currentIndex < 0) return;
-  openLightboxByIndex(currentIndex - 1);
-}
-
-// ===== Works Lightbox + Swipe (единый рабочий вариант) =====
+// ================================
+// LIGHTBOX — NO SCROLL JUMP (FIXED NAV)
+// ================================
 (() => {
   const lightbox = document.getElementById("lightbox");
   if (!lightbox) return;
@@ -283,14 +220,56 @@ function prev(){
   const nextBtn = lightbox.querySelector(".lightbox__nav--next");
   const backdrop = lightbox.querySelector(".lightbox__backdrop");
 
+  if (!imgEl || !closeBtn || !prevBtn || !nextBtn || !backdrop) return;
+
   let gallery = [];
   let index = 0;
+
+  // сохраняем скролл ТОЛЬКО при первом открытии
+  let savedScrollY = 0;
+  let isLocked = false;
+  let savedScrollBehavior = "";
 
   const collect = () => {
     gallery = Array.from(document.querySelectorAll(".work-card__img"));
   };
 
-  const openByIndex = (i) => {
+  const lockScroll = () => {
+    if (isLocked) return;
+
+    savedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+
+    // временно выключаем smooth, чтобы scrollTo не прыгал странно
+    savedScrollBehavior = document.documentElement.style.scrollBehavior || "";
+    document.documentElement.style.scrollBehavior = "auto";
+
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${savedScrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+
+    isLocked = true;
+  };
+
+  const unlockScroll = () => {
+    if (!isLocked) return;
+
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+
+    window.scrollTo(0, savedScrollY);
+
+    // возвращаем scroll-behavior как было
+    document.documentElement.style.scrollBehavior = savedScrollBehavior;
+
+    isLocked = false;
+  };
+
+  const showByIndex = (i) => {
     if (!gallery.length) collect();
     if (!gallery.length) return;
 
@@ -298,70 +277,112 @@ function prev(){
 
     const src = gallery[index].getAttribute("data-full") || gallery[index].src;
     imgEl.src = src;
-    imgEl.alt = gallery[index].alt || "Работа ребёнка";
+    imgEl.alt = gallery[index].alt || "";
+  };
 
-    lightbox.classList.add("is-open");
-    lightbox.setAttribute("aria-hidden", "false");
-    document.documentElement.classList.add("no-scroll");
-    document.body.classList.add("no-scroll");
+  const open = (i) => {
+    if (!lightbox.classList.contains("is-open")) {
+      lockScroll();
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+    }
+    showByIndex(i);
   };
 
   const close = () => {
     lightbox.classList.remove("is-open");
     lightbox.setAttribute("aria-hidden", "true");
-    document.documentElement.classList.remove("no-scroll");
-    document.body.classList.remove("no-scroll");
     imgEl.src = "";
+    unlockScroll();
   };
 
-  const next = () => openByIndex(index + 1);
-  const prev = () => openByIndex(index - 1);
+  const next = () => showByIndex(index + 1);
+  const prev = () => showByIndex(index - 1);
 
   // Открытие по клику на картинку
   document.addEventListener("click", (e) => {
+    if (lightbox.classList.contains("is-open")) return;
+
     const img = e.target.closest(".work-card__img");
     if (!img) return;
 
-    if (!gallery.length) collect();
+    // если img внутри <a href="#"> — это гасит прыжок к верху
+    e.preventDefault();
+
+    collect();
     const i = gallery.indexOf(img);
-    openByIndex(i >= 0 ? i : 0);
+    open(i >= 0 ? i : 0);
   });
 
-  // Кнопки и закрытие
-  closeBtn.addEventListener("click", close);
-  backdrop.addEventListener("click", close);
-  nextBtn.addEventListener("click", next);
-  prevBtn.addEventListener("click", prev);
+  // ВАЖНО: гасим и click, и pointerdown (на разных девайсах по-разному)
+  const stop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
 
-  // Клавиши
+  const onClose = (e) => {
+    stop(e);
+    close();
+  };
+
+  const onNext = (e) => {
+    stop(e);
+    next();
+  };
+
+  const onPrev = (e) => {
+    stop(e);
+    prev();
+  };
+
+  closeBtn.addEventListener("click", onClose);
+  closeBtn.addEventListener("pointerdown", onClose);
+
+  backdrop.addEventListener("click", onClose);
+  backdrop.addEventListener("pointerdown", onClose);
+
+  nextBtn.addEventListener("click", onNext);
+  nextBtn.addEventListener("pointerdown", onNext);
+
+  prevBtn.addEventListener("click", onPrev);
+  prevBtn.addEventListener("pointerdown", onPrev);
+
   document.addEventListener("keydown", (e) => {
     if (!lightbox.classList.contains("is-open")) return;
+
     if (e.key === "Escape") close();
     if (e.key === "ArrowRight") next();
     if (e.key === "ArrowLeft") prev();
   });
 
-  // SWIPE
-  let startX = 0;
-  let startY = 0;
+  // Swipe
+  let sx = 0,
+    sy = 0;
 
-  imgEl.addEventListener("touchstart", (e) => {
-    const t = e.changedTouches[0];
-    startX = t.clientX;
-    startY = t.clientY;
-  }, { passive: true });
+  imgEl.addEventListener(
+    "touchstart",
+    (e) => {
+      const t = e.changedTouches[0];
+      sx = t.clientX;
+      sy = t.clientY;
+    },
+    { passive: true }
+  );
 
-  imgEl.addEventListener("touchend", (e) => {
-    const t = e.changedTouches[0];
-    const dx = t.clientX - startX;
-    const dy = t.clientY - startY;
+  imgEl.addEventListener(
+    "touchend",
+    (e) => {
+      const t = e.changedTouches[0];
+      const dx = t.clientX - sx;
+      const dy = t.clientY - sy;
 
-    if (Math.abs(dy) > Math.abs(dx)) return;
+      if (Math.abs(dy) > Math.abs(dx)) return;
 
-    const threshold = 40;
-    if (dx <= -threshold) next();
-    if (dx >= threshold) prev();
-  }, { passive: true });
+      if (dx < -40) next();
+      if (dx > 40) prev();
+    },
+    { passive: true }
+  );
 
   window.addEventListener("load", collect);
 })();

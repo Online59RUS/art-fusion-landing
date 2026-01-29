@@ -630,25 +630,28 @@
           </ul>
         </div>
 
-        <form class="form" id="leadForm">
-          <label class="field">
-            <span class="field__label">Имя</span>
-            <input class="field__input" type="text" name="name" placeholder="Как к вам обращаться" required />
-          </label>
+      <form class="form" id="leadForm">
+        <label class="field">
+          <span class="field__label">Имя</span>
+          <input class="field__input" type="text" name="name" placeholder="Как к вам обращаться" required />
+        </label>
 
-          <label class="field">
-            <span class="field__label">Телефон</span>
-            <input class="field__input" type="tel" name="phone" placeholder="+7 ___ ___-__-__" required />
-          </label>
+        <label class="field">
+          <span class="field__label">Телефон</span>
+          <input class="field__input" type="tel" name="phone" placeholder="+7 ___ ___-__-__" required />
+        </label>
 
-          <label class="field">
-            <span class="field__label">Возраст ребёнка</span>
-            <input class="field__input" type="text" name="age" placeholder="Например, 7" />
-          </label>
+        <label class="field">
+          <span class="field__label">Возраст ребёнка</span>
+          <input class="field__input" type="text" name="age" placeholder="Например, 7" />
+        </label>
 
-          <button class="btn btn--primary btn--full" type="submit">Отправить заявку</button>
-          <p class="form__hint" id="formHint">Нажимая “Отправить”, вы соглашаетесь на обратную связь.</p>
-        </form>
+        <input type="hidden" name="branch" id="leadBranch" value="не выбран" />
+
+        <button class="btn btn--primary btn--full" id="leadSubmit" type="submit">Отправить заявку</button>
+        <p class="form__hint" id="formHint">Нажимая “Отправить”, вы соглашаетесь на обратную связь.</p>
+      </form>
+
       </div>
     </section>
 
