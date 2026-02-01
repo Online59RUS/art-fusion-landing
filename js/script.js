@@ -118,10 +118,10 @@ if (leadForm) {
 
       leadForm.reset();
       setHint("Спасибо! Заявка принята. Мы свяжемся с вами.");
-    } catch (err) {
-      console.error(err);
-      setHint("Не удалось отправить. Попробуйте ещё раз или позвоните по телефону.", false);
-    } finally {
+      } catch (err) {
+        console.error(err);
+        setHint(`Не удалось отправить: ${err?.message || "ошибка сети"}`, false);
+      } finally {
       if (submitBtn) submitBtn.disabled = false;
     }
   });
