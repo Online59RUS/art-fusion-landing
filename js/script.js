@@ -55,7 +55,7 @@ const hint = document.getElementById("formHint");
 const submitBtn = document.getElementById("leadSubmit");
 
 // Вставь URL своего Cloudflare Worker:
-const FORM_ENDPOINT = "https://red-snow-7862.online59rus.workers.dev";
+const FORM_ENDPOINT = "https://functions.yandexcloud.net/d4e6lmm8o2apo4i0hh07";
 
 function setHint(text, ok = true) {
   if (!hint) return;
