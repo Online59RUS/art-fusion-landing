@@ -49,12 +49,12 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeMenu();
 });
 
-// ===== Lead form -> Cloudflare Worker (Telegram inside Worker) =====
+// ===== Lead form -> Yandex Cloud Function (Telegram inside Function) =====
 const leadForm = document.getElementById("leadForm");
 const hint = document.getElementById("formHint");
 const submitBtn = document.getElementById("leadSubmit");
 
-// Вставь URL своего Cloudflare Worker:
+// URL твоей Yandex Cloud Function:
 const FORM_ENDPOINT = "https://functions.yandexcloud.net/d4e6lmm8o2apo4i0hh07";
 
 function setHint(text, ok = true) {
@@ -77,38 +77,51 @@ function normalizePhonePlain(phone) {
 async function sendLead(payload) {
   const res = await fetch(FORM_ENDPOINT, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
     body: JSON.stringify(payload),
   });
 
-  const data = await res.json().catch(() => null);
-  if (!res.ok || !data || data.ok !== true) {
+  // читаем как текст, чтобы увидеть и JSON и текст ошибок
+  const raw = await res.text();
+  let data = null;
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    // если не JSON — оставим raw
+  }
+
+  if (!res.ok) {
+    const msg = data?.error || raw || `HTTP ${res.status}`;
+    throw new Error(`Server error (${res.status}): ${msg}`);
+  }
+
+  if (!data || data.ok !== true) {
     throw new Error(data?.error || "Ошибка отправки");
   }
+
   return data;
 }
 
 if (leadForm) {
   leadForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // важно: иначе форма может “прыгать”
 
     const fd = new FormData(leadForm);
     const name = String(fd.get("name") || "").trim();
     const phone = normalizePhonePlain(fd.get("phone"));
     const age = String(fd.get("age") || "").trim();
-    const branch = String(fd.get("branch") || "").trim();
 
     if (!name || !phone) {
       setHint("Заполните имя и телефон.", false);
       return;
     }
 
+    // Отправляем только нужное
     const payload = {
       name: escapeHtml(name),
       phone: escapeHtml(phone),
       age: escapeHtml(age || "не указан"),
     };
-
 
     try {
       if (submitBtn) submitBtn.disabled = true;
@@ -118,10 +131,10 @@ if (leadForm) {
 
       leadForm.reset();
       setHint("Спасибо! Заявка принята. Мы свяжемся с вами.");
-      } catch (err) {
-        console.error(err);
-        setHint(`Не удалось отправить: ${err?.message || "ошибка сети"}`, false);
-      } finally {
+    } catch (err) {
+      console.error(err);
+      setHint(`Не удалось отправить: ${err?.message || "ошибка сети"}`, false);
+    } finally {
       if (submitBtn) submitBtn.disabled = false;
     }
   });
@@ -171,7 +184,6 @@ const BRANCHES = [
   },
 ];
 
-
 function normalizePhoneForTel(phone) {
   return String(phone || "").replace(/[^\d+]/g, "");
 }
@@ -212,6 +224,10 @@ function renderBranches() {
           <div class="branch-info__value"><a href="tel:${tel}">${b.phone}</a></div>
         </div>
       </div>
+      <div class="branch-row" style="margin-top:12px; gap:12px;">
+        <a class="btn btn--ghost btn--full" href="${b.mapYandex}" target="_blank" rel="noopener">Яндекс Карты</a>
+        <a class="btn btn--ghost btn--full" href="${b.map2gis}" target="_blank" rel="noopener">2ГИС</a>
+      </div>
     `;
   };
 
@@ -245,7 +261,6 @@ renderBranches();
   let gallery = [];
   let index = 0;
 
-  // сохраняем скролл ТОЛЬКО при первом открытии
   let savedScrollY = 0;
   let isLocked = false;
   let savedScrollBehavior = "";
@@ -259,7 +274,6 @@ renderBranches();
 
     savedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
 
-    // временно выключаем smooth, чтобы scrollTo не прыгал странно
     savedScrollBehavior = document.documentElement.style.scrollBehavior || "";
     document.documentElement.style.scrollBehavior = "auto";
 
@@ -282,8 +296,6 @@ renderBranches();
     document.body.style.width = "";
 
     window.scrollTo(0, savedScrollY);
-
-    // возвращаем scroll-behavior как было
     document.documentElement.style.scrollBehavior = savedScrollBehavior;
 
     isLocked = false;
@@ -319,14 +331,12 @@ renderBranches();
   const next = () => showByIndex(index + 1);
   const prev = () => showByIndex(index - 1);
 
-  // Открытие по клику на картинку
   document.addEventListener("click", (e) => {
     if (lightbox.classList.contains("is-open")) return;
 
     const img = e.target.closest(".work-card__img");
     if (!img) return;
 
-    // если img внутри <a href="#"> — это гасит прыжок к верху
     e.preventDefault();
 
     collect();
@@ -334,26 +344,14 @@ renderBranches();
     open(i >= 0 ? i : 0);
   });
 
-  // ВАЖНО: гасим и click, и pointerdown (на разных девайсах по-разному)
   const stop = (e) => {
     e.preventDefault();
     e.stopPropagation();
   };
 
-  const onClose = (e) => {
-    stop(e);
-    close();
-  };
-
-  const onNext = (e) => {
-    stop(e);
-    next();
-  };
-
-  const onPrev = (e) => {
-    stop(e);
-    prev();
-  };
+  const onClose = (e) => { stop(e); close(); };
+  const onNext = (e) => { stop(e); next(); };
+  const onPrev = (e) => { stop(e); prev(); };
 
   closeBtn.addEventListener("click", onClose);
   closeBtn.addEventListener("pointerdown", onClose);
@@ -375,34 +373,24 @@ renderBranches();
     if (e.key === "ArrowLeft") prev();
   });
 
-  // Swipe
-  let sx = 0,
-    sy = 0;
+  let sx = 0, sy = 0;
 
-  imgEl.addEventListener(
-    "touchstart",
-    (e) => {
-      const t = e.changedTouches[0];
-      sx = t.clientX;
-      sy = t.clientY;
-    },
-    { passive: true }
-  );
+  imgEl.addEventListener("touchstart", (e) => {
+    const t = e.changedTouches[0];
+    sx = t.clientX;
+    sy = t.clientY;
+  }, { passive: true });
 
-  imgEl.addEventListener(
-    "touchend",
-    (e) => {
-      const t = e.changedTouches[0];
-      const dx = t.clientX - sx;
-      const dy = t.clientY - sy;
+  imgEl.addEventListener("touchend", (e) => {
+    const t = e.changedTouches[0];
+    const dx = t.clientX - sx;
+    const dy = t.clientY - sy;
 
-      if (Math.abs(dy) > Math.abs(dx)) return;
+    if (Math.abs(dy) > Math.abs(dx)) return;
 
-      if (dx < -40) next();
-      if (dx > 40) prev();
-    },
-    { passive: true }
-  );
+    if (dx < -40) next();
+    if (dx > 40) prev();
+  }, { passive: true });
 
   window.addEventListener("load", collect);
 })();
